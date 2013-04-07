@@ -4,9 +4,27 @@ from django.utils import timezone
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 
+def get_past_time(dt):
+    now = timezone.now() # offset-awared datetime
+    now.astimezone(timezone.utc).replace(tzinfo = None) # change to offset-native datetime
+    delta = now - dt
+    return delta
+
+def formated_past_time(delta):
+    if delta.days > 0:
+        return "%s day(s) ago" % (delta.days)
+    else:
+        if (delta.seconds / 3600) > 0:
+            return "%s hour(s) ago" % (delta.seconds / 3600)
+        else:
+            return "%s minute(s) ago" % (delta.seconds / 60)
+
 
 class Hacker(AbstractUser):
     about = models.TextField(blank = True)
+
+    def formated_create_time(self):
+        return formated_past_time(get_past_time(self.date_joined))
 
 
 class Item(models.Model):
@@ -28,33 +46,28 @@ class Item(models.Model):
     comments = models.IntegerField(default = 0)
 
     def comments_inc(self):
-        self.comments = self.comments + 1
-        self.calc_score()
+        item = self
+        while item:
+            item.comments = item.comments + 1
+            item.calc_score()
+            item.save()
+
+            item = item.parent
 
     def points_inc(self):
         self.points = self.points + 1
         self.calc_score()
-
+        self.save()
 
     def calc_score(self):
         delta = self.get_past_time()
         self.score = float(self.points + self.comments) / ((delta.seconds / 3600 + 1) ** self.GRAVITY) 
 
     def get_past_time(self):
-        now = timezone.now() # offset-awared datetime
-        now.astimezone(timezone.utc).replace(tzinfo = None) # change to offset-native datetime
-        delta = now - self.create_date
-        return delta
+        return get_past_time(self.create_date)
 
     def formated_create_time(self):
-        delta = self.get_past_time()
-        if delta.days > 0:
-            return "%s day(s) ago" % (delta.days)
-        else:
-            if (delta.seconds / 3600) > 0:
-                return "%s hour(s) ago" % (delta.seconds / 3600)
-            else:
-                return "%s minute(s) ago" % (delta.seconds / 60)
+        return formated_past_time(self.get_past_time())
 
     def get_domain(self):
         return urlparse.urlsplit(self.url).netloc if self.url else ''

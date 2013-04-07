@@ -8,7 +8,7 @@
     <table>
         <tbody>
             <tr><td>user</td><td>{{ u.username }}</td></tr>
-            <tr><td>created</td><td>{{ u.date_joined}}</td></tr>
+            <tr><td>created</td><td>{{ u.formated_create_time }}</td></tr>
             <tr><td>about</td><td><textarea name="about" rows="5" cols="50" value="{{ u.about }}"></textarea></td></tr>
             <tr><td>email</td><td><input type="text" name="email" size="50" value="{{ u.email }}"/></td></tr>
 

@@ -80,7 +80,6 @@ def vote(request):
     try:
         item = Item.objects.get(id = request.GET['id'])
         item.points_inc()
-        item.save()
         return HttpResponse('OK')
 
     except Exception, e:
@@ -105,7 +104,6 @@ def response(request):
             item.save()
 
             parent.comments_inc()
-            parent.save()
 
         else:
             if 'title' not in request.POST:
