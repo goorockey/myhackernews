@@ -8,6 +8,7 @@ urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'hk.views.index', name='index'),
     url(r'^submissions$', 'hk.views.index', name='submissions'),
+    url(r'^newest$', 'hk.views.newest', name='newest'),
 
     url(r'^item$', 'hk.views.item', name='item'),
 

@@ -4,13 +4,35 @@ from django.contrib.auth import logout
 from django.shortcuts import render, get_object_or_404
 from hk.models import *
 
-PAGE_LIST = {'new' : '/', 'comments' : '/comments', 'submit': '/submit'}
+PAGE_LIST = {'new' : '/newest', 'comments' : '/comments', 'submit': '/submit'}
 PAGE_ITEM_COUNT = 60
 ITEM_UPLIMIT = 1500
 
 def index(request):
     try:
         item_list = Item.objects.filter(type = 'NEW').order_by('-score')
+        if 'id' in request.GET:
+            item_list = item_list.filter(author_id = request.GET['id'])
+
+        start = int(request.GET['s']) if 's' in request.GET else 0
+
+        next = start + PAGE_ITEM_COUNT
+        if next >= item_list.count() or next >= ITEM_UPLIMIT:
+            next = -1
+
+        return render(request, 'index.html', 
+                {
+                    'page_list' : PAGE_LIST,
+                    'item_list' : item_list[start : start + PAGE_ITEM_COUNT],
+                    'start' : start,
+                    'next' : next
+                })
+    except Exception, e:
+        return HttpResponse(e)
+
+def newest(request):
+    try:
+        item_list = Item.objects.filter(type = 'NEW').order_by('create_date')
         if 'id' in request.GET:
             item_list = item_list.filter(author_id = request.GET['id'])
 
