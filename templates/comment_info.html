@@ -2,7 +2,13 @@
     <a href="/user?id={{ item.author.id }}">{{ item.author.username }}</a>
     {{ item.formated_create_time }}
     | 
-    <a href="/item?id={{ item.id }}">{{ item.comments }} comments</a>
+    <a href="/item?id={{ item.id }}">
+        {% if item.comments > 0 %}
+            {{ item.comments }} comments
+        {% else %}
+            discuss
+        {% endif %}
+    </a>
     |
     <a href="/item?id={{ item.parent.id }}">parent</a>
 </span>
