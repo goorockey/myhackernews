@@ -4,7 +4,7 @@
 <table id="item_tbl">
     {% for item in item_list %}
     <tr>
-        <td class="item_index">{{ forloop.counter }}.</td>
+        <td class="item_index">{{ forloop.counter|add:start }}.</td>
 
         {% include "vote_arrow.html" %}
 
@@ -22,5 +22,13 @@
     </tr>
     <tr class="body_gap"></tr>
     {% endfor %}
+
+    {% if next > 0 %}
+        <tr class="body_gap"></tr>
+        <tr>
+            <td colspan="2"></td>
+            <td><a href="{% url 'index' %}?s={{ next }}">More</a></td>
+        </tr>
+    {% endif %}
 </table>
 {% endblock body_content %}
