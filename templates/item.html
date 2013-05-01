@@ -6,13 +6,8 @@
 <table>
     <tbody>
         <tr>
-            <td>
-                <center>
-                    <a href="/vote?id={{ new.id }}">
-                        <img class="vote_img" src="{% static 'img/grayarrow.gif' %}" />
-                    </a>
-                </center>
-            </td>
+            {% include 'vote_arrow.html' %}
+
             {% if item.type == 'NEW' %}
             <td class="item_title">
                     {% if item.url %}
@@ -72,7 +67,11 @@
 
 <table>
     <tbody>
-        <tr><td><p>{{ comments }}<p></td></tr>
+        {% for child in item.childs %}
+            {% with item=child %}
+                {% include 'comment.html' with level="0" %}
+            {% endwith %}
+        {% endfor %}
     </tbody>
 </table>
 {% endblock body_content %}

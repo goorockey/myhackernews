@@ -64,21 +64,20 @@ def getComments(item, level = [], comments = []):
         getComments(item, level, comments)
 
 def item(request):
-    try:
-        item = get_object_or_404(Item, id = request.GET['id'])
-        level = [0]
-        comments = []
-        getComments(item, level, comments)
-        return render(request, 'item.html', 
-                {
-                    'page_list' : PAGE_LIST,
-                    'item' : item,
-                    #'comments' : ''.join(comments),
-                    'comments' : 'sdaf',
-                })
-    except Exception, e:
+    #try:
+    item = get_object_or_404(Item, id = request.GET['id'])
+    #level = [0]
+    #comments = []
+    #getComments(item, level, comments)
+    return render(request, 'item.html', 
+            {
+                'page_list' : PAGE_LIST,
+                'item' : item,
+                #'comments' : ''.join(comments),
+            })
+    #except Exception, e:
         #return Http404
-        return HttpResponse(e)
+        #return HttpResponse(e)
 
 def submit(request):
     return render(request, 'submit.html')

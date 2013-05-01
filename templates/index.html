@@ -7,13 +7,9 @@
     {% for new in new_list %}
     <tr>
         <td class="new_index">{{ forloop.counter }}.</td>
-        <td>
-            <center>
-                <a href="/vote?id={{ new.id }}">
-                    <img class="vote_img" src="{% static 'img/grayarrow.gif' %}" />
-                </a>
-            </center>
-        </td>
+
+        {% include "vote_arrow.html" %}
+
         <td class="item_title">
             {% if new.url %}
                 <a href="{{ new.url }}">{{ new.title }}</a><span class="item_info">  ({{ new.get_domain }})</span>

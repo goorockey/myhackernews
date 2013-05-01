@@ -43,6 +43,9 @@ class Item(models.Model):
     def get_domain(self):
         return urlparse.urlsplit(self.url).netloc if self.url else ''
 
+    def childs(self):
+        return Item.objects.filter(parent_id = self.id)
+
 class Point(models.Model):
     user = models.ForeignKey(User)
     item = models.ForeignKey(Item)

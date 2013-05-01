@@ -1,0 +1,41 @@
+{% load staticfiles %}
+
+{% if item.parent %}
+<tr>
+    <td>
+        <table>
+            <tbody>
+                <tr>
+                    <td>
+                        <img width="{% widthratio level 1 40 %}" height="1" src="{% static 'img/s.gif' %}" />
+                    </td>
+
+                    {% include "vote_arrow.html" %}
+
+                    <td>
+                        <span class="item_info">
+                            <a href="/user?id={{ item.author.id }}">{{ item.author.username }}</a>
+                            {{ item.formated_create_time }}
+                            | 
+                            <a href="/item?id={{ item.id }}">{{ item.comments }} comments</a>
+                            |
+                            <a href="/item?id={{ item.parent.id }}">parent</a>
+                        </span>
+                        <br>
+                        <span class="content" >{{ item.text }}</span>
+                        <p><a href="/reply?id={{ item.id }}&u={{ user_id }}">reply</a></p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </td>
+</tr>
+{% endif %}
+
+{% with level|add:"1" as level %}
+    {% for child in item.childs %}
+        {% with item=child template_name="comment.html" %}
+            {% include template_name %}
+        {% endwith %}
+    {% endfor %}
+{% endwith %}
