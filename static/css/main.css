@@ -4,11 +4,6 @@ body {
     line-height: normal;
 }
 
-textarea {
-    cols: 50;
-    rows: 4;
-}
-
 table {
     cellspacing: 0;
     cellpadding: 0;
@@ -52,4 +47,7 @@ table {
 .item_info {
     font-size: 7pt;
     color: #828282;
+}
+
+.vote_img {
 }
