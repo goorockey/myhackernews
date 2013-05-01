@@ -18,7 +18,7 @@ class Item(models.Model):
         )
 
     type = models.CharField(max_length = 20, choices = ITEM_TYPE_CHOICES, default = 'NEW')
-    title = models.CharField(max_length = 100)
+    title = models.CharField(max_length = 100, blank = True)
     url = models.URLField(blank = True)
     text = models.TextField(blank = True)
     parent = models.ForeignKey('self', null = True, blank = True)

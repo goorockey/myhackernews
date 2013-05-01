@@ -13,36 +13,40 @@
                     </a>
                 </center>
             </td>
+            {% if item.type == 'NEW' %}
             <td class="item_title">
-                {% if item.type == 'NEW' %}
                     {% if item.url %}
                         <a href="{{ item.url }}">{{ item.title }}</a><span class="item_info">({{ item.get_domain }})</span>
                     {% else %}
                         <a href="/item?id={{ item.id }}">{{ item.title }}</a>
                     {% endif %}
-                {% else %}
-                    <a href="/user?id={{ item.author.id }}">{{ item.author.username }}</a>
-                    {{ item.formated_create_time }}
-                    | 
-                    <a href="item?id={{ item.id }}">{{ item.comments }} comments</a>
-                    |
-                    <a href="item?id={{ item.parent_id }}">parent</a>
-                {% endif %}
             </td>
+            {% else %}
+            <td class="item_info">
+                <a href="/user?id={{ item.author.id }}">{{ item.author.username }}</a>
+                {{ item.formated_create_time }}
+                | 
+                <a href="item?id={{ item.id }}">{{ item.comments }} comments</a>
+                |
+                <a href="item?id={{ item.parent_id }}">parent</a>
+            </td>
+            {% endif %}
         </tr>
         <tr>
             <td></td>
-            <td class="item_info">
-                {% if item.type == 'NEW' %}
+            {% if item.type == 'NEW' %}
+                <td class="item_info">
                     <span class="item_points">{{ item.points }} points</span>
                     by
                     <a href="/user?id={{ item.author.id }}">{{ item.author.username }}</a>
                     {{ item.formated_create_time }} | 
                     <a href="item?id={{ item.id }}">{{ item.comments }} comments</a>
-                {% else %}
+                </td>
+            {% else %}
+                <td>
                     <span class="content">{{ item.text }}</span>
-                {% endif %}
-            </td>
+                </td>
+            {% endif %}
         </tr>
         {% if item.type == 'NEW' and not item.url %}
         <tr>
@@ -53,11 +57,22 @@
         <tr>
             <td></td>
             <td>
-                <textarea name="text"></textarea>
+                <textarea cols="50" rows="5" name="text"></textarea>
                 <br>
-                <input type="submit" value="add comment" />
+                <br>
+                <form action="/r" method="post">
+                    <input type="submit" value="add comment" />
+                </form>
             </td>
         </tr>
+    </tbody>
+</table>
+<br>
+<br>
+
+<table>
+    <tbody>
+        <tr><td><p>{{ comments }}<p></td></tr>
     </tbody>
 </table>
 {% endblock body_content %}
