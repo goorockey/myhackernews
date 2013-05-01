@@ -48,26 +48,35 @@ def reply(request):
 @login_required
 def response(request):
     try:
-        parent_id = request.POST['parent']
-        text = request.POST['text']
+        if 'parent' in request.POST:
+            parent = Item.objects.get(id = request.POST['parent'])
+            
+            if 'text' not in request.POST:
+                return HttpResponseRedirect('/')
+            text = request.POST['text']
 
-        if parent_id:
-            parent = Item.objects.get(id = parent_id)
-            item = Item(type = 'COMMENT', text = text, parent = parent, author = Hakcer.objects.get(id = 1))
+            item = Item(type = 'COMMENT', text = text, parent = parent, author = Hacker.objects.get(id = request.user.id))
             item.save()
 
             parent.set_comments(parent.comments + 1)
             parent.save()
 
         else:
-            title = request.POST['title']
-            url = request.POST['url']
+            if 'title' not in request.POST:
+                return HttpResponseRedirect('/')
 
-            item = Item(type = 'NEW', title = title, url = url, text = text, author = Hacker.objects.get(id = 1))
+            title = request.POST['title']
+            url = request.POST['url'] if 'url' in request.POST else ''
+            text = request.POST['text'] if 'text' in request.POST else ''
+
+            if not (url or text):
+                return HttpResponseRedirect('/')
+
+            item = Item(type = 'NEW', title = title, url = url, text = text, author = Hacker.objects.get(id = request.user.id))
 
             item.save()
 
-        return HttpResponseRedirect('/item?id=' + item.id)
+        return HttpResponseRedirect('/item?id=%d' % item.id)
 
     except Exception, e:
         return HttpResponse(e)

@@ -38,8 +38,7 @@ class Item(models.Model):
 
     def calc_score(self):
         delta = self.get_past_time()
-        self.scores = (self.points + self.comments) / ((self.seconds / 3600 + 1) ** GRAVITY) 
-        
+        self.scores = (self.points + self.comments) / ((delta.seconds / 3600 + 1) ** self.GRAVITY) 
 
     def get_past_time(self):
         now = timezone.now() # offset-awared datetime

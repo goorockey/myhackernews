@@ -4,6 +4,7 @@
 
 {% block body_content %}
 <form action="/r" method="post">
+    {% csrf_token %}
     <table>
         <tbody>
             <tr>
@@ -12,7 +13,7 @@
             </tr>
             <tr>
                 <td>url</td>
-                <td><input type="text" size="50" name=url" /></td>
+                <td><input type="text" size="50" name="url" /></td>
             </tr>
             <tr>
                 <td></td>
