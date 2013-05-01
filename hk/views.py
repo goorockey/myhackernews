@@ -1,4 +1,6 @@
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from django.shortcuts import render, get_object_or_404
 from hk.models import *
 
@@ -18,78 +20,62 @@ def comments(request):
                 'new_list' : Item.objects.filter(type = 'COMMENT')
             })
 
-COMMENTS_TEMPLATE = '''
-<tr>
-    <td>
-        <table>
-            <tbody>
-                <tr>
-                    <td>
-                        <div width="%(padding)d"></div>
-                    </td>
-                    <td>
-                        <a href="/vote?id=%(item_id)d&u=%(user_id)d"><img class="vote_img" src="{%% static 'img/grayarrow.gif' %%}" /></a>
-                    </td>
-                    <td>
-                        <span class="item_info">
-                            <a href="/user?id={{ item.author.id }}">{{ item.author.username }}</a>
-                            {{ item.formated_create_time }}
-                            | 
-                            <a href="item?id={{ item.id }}">{{ item.comments }} comments</a>
-                            |
-                            <a href="item?id={{ item.parent_id }}">parent</a>
-                        </span>
-                        <span class="content" >%(content)s</span>
-                        <p><a href="reply?id=%(item_id)d&u=%(user_id)d">reply</a></p>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </td>
-</tr>
-'''
-
-def getComments(item, level = [], comments = []):
-    if item.parent:
-        comments.append(COMMENTS_TEMPLATE % 
-                {
-                    'padding' : level[0] * 40,
-                    'item_id' : item.id,
-                    'content' : item.text,
-                    'user_id' : 0,
-                })
-
-    level[0] = level[0] + 1
-    for item in Item.objects.filter(parent__id = item.id):
-        getComments(item, level, comments)
-
 def item(request):
     #try:
     item = get_object_or_404(Item, id = request.GET['id'])
-    #level = [0]
-    #comments = []
-    #getComments(item, level, comments)
     return render(request, 'item.html', 
             {
                 'page_list' : PAGE_LIST,
                 'item' : item,
-                #'comments' : ''.join(comments),
             })
     #except Exception, e:
         #return Http404
         #return HttpResponse(e)
 
+@login_required
 def submit(request):
     return render(request, 'submit.html')
 
+@login_required
 def vote(request):
     pass
 
-def login(request):
+@login_required
+def reply(request):
     pass
 
-def logout(request):
-    pass
 
+@login_required
 def response(request):
+    try:
+        parent_id = request.POST['parent']
+        text = request.POST['text']
+
+        if parent_id:
+            parent = Item.objects.get(id = parent_id)
+            item = Item(type = 'COMMENT', text = text, parent = parent, author = Hakcer.objects.get(id = 1))
+            item.save()
+
+            parent.set_comments(parent.comments + 1)
+            parent.save()
+
+        else:
+            title = request.POST['title']
+            url = request.POST['url']
+
+            item = Item(type = 'NEW', title = title, url = url, text = text, author = Hacker.objects.get(id = 1))
+
+            item.save()
+
+        return HttpResponseRedirect('/item?id=' + item.id)
+
+    except Exception, e:
+        return HttpResponse(e)
+
+
+def user(request):
     pass
+
+def hk_logout(request):
+    logout(request)
+    return HttpResponseRedirect('/')

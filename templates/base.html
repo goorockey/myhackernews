@@ -38,10 +38,10 @@
                                         {% endfor %}
                                     </td>
                                     <td id="header_login">
-                                        {% if not logined %}
-                                        <a href="/login">login</a>
+                                        {% if not user.is_authenticated %}
+                                        <a href="{% url 'login' %}" >login</a>
                                         {% else %}
-                                        <a href="/logout">logout</a>
+                                        <a href="{% url 'logout' %}" >logout</a>
                                         {% endif %}
                                     </td>
                                 </tr>

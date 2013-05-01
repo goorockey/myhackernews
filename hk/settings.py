@@ -1,5 +1,6 @@
 # Django settings for hk project.
 import os
+from django.core.urlresolvers import reverse_lazy
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -158,3 +159,7 @@ LOGGING = {
         },
     }
 }
+
+AUTH_USER_MODEL = 'hk.Hacker'
+LOGIN_URL = reverse_lazy('login')
+LOGIN_REDIRECT_URL = reverse_lazy('index')
