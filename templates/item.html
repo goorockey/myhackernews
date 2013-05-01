@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block body_content %}
+<table>
+    <tbody>
+        <tr>
+            <td>
+                <center>
+                    <a href="/vote?id={{ new.id }}">
+                        <img class="vote_img" src="{% static 'img/grayarrow.gif' %}" />
+                    </a>
+                </center>
+            </td>
+            <td class="item_title">
+                {% if item.type == 'NEW' %}
+                    {% if item.url %}
+                        <a href="{{ item.url }}">{{ item.title }}</a><span class="item_info">({{ item.get_domain }})</span>
+                    {% else %}
+                        <a href="/item?id={{ item.id }}">{{ item.title }}</a>
+                    {% endif %}
+                {% else %}
+                    <a href="/user?id={{ item.author.id }}">{{ item.author.username }}</a>
+                    {{ item.formated_create_time }}
+                    | 
+                    <a href="item?id={{ item.id }}">{{ item.comments }} comments</a>
+                    |
+                    <a href="item?id={{ item.parent_id }}">parent</a>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td class="item_info">
+                {% if item.type == 'NEW' %}
+                    <span class="item_points">{{ item.points }} points</span>
+                    by
+                    <a href="/user?id={{ item.author.id }}">{{ item.author.username }}</a>
+                    {{ item.formated_create_time }} | 
+                    <a href="item?id={{ item.id }}">{{ item.comments }} comments</a>
+                {% else %}
+                    <span class="content">{{ item.text }}</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% if item.type == 'NEW' and not item.url %}
+        <tr>
+            <td></td>
+            <td><span class="content">{{ item.text }}</span></td>
+        </tr>
+        {% endif %}
+        <tr>
+            <td></td>
+            <td>
+                <textarea name="text"></textarea>
+                <br>
+                <input type="submit" value="add comment" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+{% endblock body_content %}
