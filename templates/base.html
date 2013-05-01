@@ -10,17 +10,58 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Bootstrap -->
         <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+        <link href="{% static 'css/main.css' %}" rel="stylesheet" media="screen">
     </head>
 
     <body>
-        {% block body_header %}
-        {% endblock body_header %}
+        <center>
+            <table id="main_table">
+                <tbody>
+                    <tr>
+                        <td id="header_td" >
+                        {% block body_header %}
+                        <table id="header_tbl">
+                            <tbody>
+                                <tr>
+                                    <td id="header_icon">
+                                    </td>
+                                    <td id="header_menu">
+                                        <b id="header_menu_title"><a href="{% url 'hk.views.index' %}">Hacker News</a></b>
+                                        {% for key, value in page_list.items %}
+                                            <a href="{{ value }}">{{ key }}</a>
+                                            {% if not forloop.last %}
+                                            |
+                                            {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                    <td id="header_login">
+                                        {% if not logined %}
+                                        <a href="/login">login</a>
+                                        {% else %}
+                                        <a href="/logout">logout</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {% endblock body_header %}
+                        </td>
+                    </tr>
 
-        {% block body_content %}
-        {% endblock body_content %}
+                    <tr>
+                        <td>
+                        {% block body_content %}
+                        {% endblock body_content %}
+                        </td>
+                    </tr>
 
-        {% block body_footer %}
-        {% endblock body_footer %}
+                    <tr>
+                    {% block body_footer %}
+                    {% endblock body_footer %}
+                    </tr>
+                </tbody>
+            </table>
+        </center>
 
         <script src="{% static 'js/jquery.js' %}"></script>
         <script src="{% static 'js/bootstrap.min.js' %}"></script>

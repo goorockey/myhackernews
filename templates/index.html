@@ -1,2 +1,38 @@
 {% extends "base.html" %}
-{% block head_title %}haha{% endblock head_title %}
+
+{% load staticfiles %}
+
+{% block body_content %}
+<table id="news_tbl">
+    {% for new in new_list %}
+    <tr>
+        <td class="new_index">{{ forloop.counter }}.</td>
+        <td>
+            <center>
+                <a href="/vote?id={{ new.id }}">
+                    <img class="vote_img" src="{% static 'img/grayarrow.gif' %}" />
+                </a>
+            </center>
+        </td>
+        <td class="new_title">
+            {% if new.url %}
+            <a href="{{ new.url }}">{{ new.title }}</a><span class="new_domain">({{ new.get_domain }})</span>
+            {% else %}
+            <a href="/item?id={{ new.id }}">{{ new.title }}</a>
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2"></td>
+        <td class="new_info">
+            <span class="new_points">{{ new.points }} points</span>
+            by
+            <a href="/user?id={{ new.author.id }}">{{ new.author.username }}</a>
+            {{ new.formated_create_time }} | 
+            <a href="item?id={{ new.id }}">{{ new.comments }}comments</a>
+        </td>
+    </tr>
+    <tr class="body_gap"></tr>
+    {% endfor %}
+</table>
+{% endblock body_content %}

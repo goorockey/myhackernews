@@ -1,0 +1,51 @@
+body {
+    font-family: Verdana;
+    font-size: 10pt;
+    line-height: normal;
+}
+
+table {
+    cellspacing: 0;
+    cellpadding: 0;
+    border: 0;
+}
+
+#main_table {
+    width: 85%;
+    background: #F6F6EF; }
+
+#header_td {
+    background: #FF9933;
+}
+
+#header_tbl {
+    padding: 2px;
+    width: 100%;
+}
+
+#header_menu_title {
+    padding-right: 10px;
+}
+
+#header_login {
+    text-align: right;
+    padding-right: 4px;
+}
+    
+.body_gap {
+    height: 5px;
+}
+
+#news_tbl {
+    padding:10px;
+}
+
+#news_tbl td {
+    padding: 0;
+}
+
+
+.new_info {
+    font-size: 7pt;
+    color: #828282;
+}
