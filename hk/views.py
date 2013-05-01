@@ -38,7 +38,14 @@ def submit(request):
 
 @login_required
 def vote(request):
-    pass
+    try:
+        item = Item.objects.get(id = request.GET['id'])
+        item.points_inc()
+        item.save()
+        return HttpResponse('OK')
+
+    except Exception, e:
+        return  HttpResponse(e)
 
 @login_required
 def reply(request):
@@ -58,7 +65,7 @@ def response(request):
             item = Item(type = 'COMMENT', text = text, parent = parent, author = Hacker.objects.get(id = request.user.id))
             item.save()
 
-            parent.set_comments(parent.comments + 1)
+            parent.comments_inc()
             parent.save()
 
         else:

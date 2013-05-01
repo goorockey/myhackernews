@@ -27,12 +27,12 @@ class Item(models.Model):
     scores = models.IntegerField(default = 0)
     comments = models.IntegerField(default = 0)
 
-    def set_comments(self, comments):
-        self.comments = comments
+    def comments_inc(self, comments):
+        self.comments = self.comments + 1
         self.calc_score()
 
-    def set_points(self, points):
-        self.points = points
+    def points_inc(self):
+        self.points = self.points + 1
         self.calc_score()
 
 
