@@ -1,4 +1,4 @@
 myhackernews
 ============
 
-My implement for hacker news in python. Just for pratice.
+My implement for hacker news in django. Just for pratice.
