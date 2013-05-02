@@ -10,7 +10,7 @@ def index(request):
     try:
         item_list = Item.objects.filter(type = 'NEW').order_by('-score')
         if 'id' in request.GET:
-            item_list = item_list.filter(author_id = id)
+            item_list = item_list.filter(author_id = request.GET['id'])
 
         return render(request, 'index.html', 
                 {
@@ -18,7 +18,7 @@ def index(request):
                     'item_list' : item_list
                 })
     except Exception, e:
-        return Http404
+        return HttpResponse(e)
 
 def user(request):
     u = get_object_or_404(Hacker, id = request.GET['id'])
@@ -32,7 +32,7 @@ def comments(request):
     try:
         item_list = Item.objects.filter(type = 'COMMENT').order_by('create_date')
         if 'id' in request.GET:
-            item_list = item_list.filter(author_id = id)
+            item_list = item_list.filter(author_id = request.GET['id'])
 
         return render(request, 'comments.html', 
                 {
@@ -40,7 +40,7 @@ def comments(request):
                     'item_list' : item_list
                 })
     except Exception, e:
-        return Http404
+        return HttpResponse(e)
 
 def item(request):
     #try:
