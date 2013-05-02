@@ -24,7 +24,7 @@ urlpatterns = patterns('',
     url(r'^p$', 'hk.views.password', name='password'),
 
     url(r'^changepw$', 'django.contrib.auth.views.password_change', name='changepw'),
-    url(r'^$', 'django.contrib.auth.views.password_change_done', name='pwchanged'),
+    url(r'^pwchanged$', 'django.contrib.auth.views.password_change_done', name='pwchanged'),
 
 
     url(r'^login$', 'django.contrib.auth.views.login', name='login'),

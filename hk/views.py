@@ -173,7 +173,7 @@ def password(request):
         u = get_object_or_404(Hacker, id = request.user.id)
         u.set_password(pw1)
         u.save()
-        return HttpResponseRedirect('/user?id=%d' % u.id)
+        return HttpResponseRedirect('/pwchanged')
 
     except Exception, e:
         return HttpResponse(e)
