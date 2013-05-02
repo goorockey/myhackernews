@@ -27,7 +27,7 @@ class Item(models.Model):
     score = models.FloatField(default = 0)
     comments = models.IntegerField(default = 0)
 
-    def comments_inc(self, comments):
+    def comments_inc(self):
         self.comments = self.comments + 1
         self.calc_score()
 

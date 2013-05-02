@@ -17,26 +17,15 @@
                     {% endif %}
             </td>
             {% else %}
-            <td class="item_info">
-                <a href="/user?id={{ item.author.id }}">{{ item.author.username }}</a>
-                {{ item.formated_create_time }}
-                | 
-                <a href="item?id={{ item.id }}">{{ item.comments }} comments</a>
-                |
-                <a href="item?id={{ item.parent_id }}">parent</a>
+            <td>
+                {% include 'comment_info.html' %}
             </td>
             {% endif %}
         </tr>
         <tr>
             <td></td>
             {% if item.type == 'NEW' %}
-                <td class="item_info">
-                    <span class="item_points">{{ item.points }} points</span>
-                    by
-                    <a href="/user?id={{ item.author.id }}">{{ item.author.username }}</a>
-                    {{ item.formated_create_time }} | 
-                    <a href="item?id={{ item.id }}">{{ item.comments }} comments</a>
-                </td>
+                {% include 'info.html' %}
             {% else %}
                 <td>
                     <span class="content">{{ item.text }}</span>

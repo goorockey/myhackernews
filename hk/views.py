@@ -7,11 +7,18 @@ from hk.models import *
 PAGE_LIST = {'new' : '/', 'comments' : '/comments', 'submit': '/submit'}
 
 def index(request):
-    return render(request, 'index.html', 
-            {
-                'page_list' : PAGE_LIST,
-                'new_list' : Item.objects.filter(type = 'NEW').order_by('-score')
-            })
+    try:
+        item_list = Item.objects.filter(type = 'NEW').order_by('-score')
+        if 'id' in request.GET:
+            item_list = item_list.filter(author_id = id)
+
+        return render(request, 'index.html', 
+                {
+                    'page_list' : PAGE_LIST,
+                    'item_list' : item_list
+                })
+    except Exception, e:
+        return Http404
 
 def user(request):
     u = get_object_or_404(Hacker, id = request.GET['id'])
@@ -21,18 +28,19 @@ def user(request):
                 'u' : u 
             })
 
-def submissions(request):
-    pass
-
 def comments(request):
-    pass
+    try:
+        item_list = Item.objects.filter(type = 'COMMENT').order_by('create_date')
+        if 'id' in request.GET:
+            item_list = item_list.filter(author_id = id)
 
-def newcomments(request):
-    return render(request, 'index.html', 
-            {
-                'page_list' : PAGE_LIST,
-                'new_list' : Item.objects.filter(type = 'COMMENT').order_by('create_date')
-            })
+        return render(request, 'comments.html', 
+                {
+                    'page_list' : PAGE_LIST,
+                    'item_list' : item_list
+                })
+    except Exception, e:
+        return Http404
 
 def item(request):
     #try:
@@ -116,10 +124,6 @@ def update(request):
 
     except Exception, e:
         return HttpResponse(e)
-
-@login_required
-def changepw(request):
-    return render(request, 'changepw.html')
 
 @login_required
 def password(request):

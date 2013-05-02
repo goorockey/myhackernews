@@ -1,12 +1,10 @@
 {% extends "base.html" %}
 
-{% load staticfiles %}
-
 {% block body_content %}
-<table id="news_tbl">
-    {% for item in new_list %}
+<table id="item_tbl">
+    {% for item in item_list %}
     <tr>
-        <td class="new_index">{{ forloop.counter }}.</td>
+        <td class="item_index">{{ forloop.counter }}.</td>
 
         {% include "vote_arrow.html" %}
 
@@ -20,13 +18,7 @@
     </tr>
     <tr>
         <td colspan="2"></td>
-        <td class="item_info">
-            <span class="item_points">{{ item.points }} points</span>
-            by
-            <a href="/user?id={{ item.author.id }}">{{ item.author.username }}</a>
-            {{ item.formated_create_time }} | 
-            <a href="item?id={{ item.id }}">{{ item.comments }} comments</a>
-        </td>
+        {% include 'info.html' %}
     </tr>
     <tr class="body_gap"></tr>
     {% endfor %}

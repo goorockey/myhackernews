@@ -13,14 +13,7 @@
                     {% include "vote_arrow.html" %}
 
                     <td>
-                        <span class="item_info">
-                            <a href="/user?id={{ item.author.id }}">{{ item.author.username }}</a>
-                            {{ item.formated_create_time }}
-                            | 
-                            <a href="/item?id={{ item.id }}">{{ item.comments }} comments</a>
-                            |
-                            <a href="/item?id={{ item.parent.id }}">parent</a>
-                        </span>
+                        {% include 'comment_info.html' %}
                         <br>
                         <span class="content" >{{ item.text }}</span>
                         <p><a href="/item?id={{ item.id }}">reply</a></p>

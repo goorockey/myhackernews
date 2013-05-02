@@ -7,8 +7,13 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'hk.views.index', name='index'),
+    url(r'^submissions$', 'hk.views.index', name='submissions'),
+
     url(r'^item$', 'hk.views.item', name='item'),
-    url(r'^newcomments$', 'hk.views.newcomments', name='newcomments'),
+
+    url(r'^newcomments$', 'hk.views.comments', name='newcomments'),
+    url(r'^comments$', 'hk.views.comments', name='comments'),
+
     url(r'^submit$', 'hk.views.submit', name='submit'),
     url(r'^reply$', 'hk.views.reply', name='reply'),
     url(r'^vote$', 'hk.views.vote', name='vote'),
@@ -20,8 +25,6 @@ urlpatterns = patterns('',
     url(r'^changepw$', 'django.contrib.auth.views.password_change', name='changepw'),
     url(r'^$', 'django.contrib.auth.views.password_change_done', name='pwchanged'),
 
-    url(r'^submissions$', 'hk.views.submissions', name='submissions'),
-    url(r'^comments$', 'hk.views.comments', name='comments'),
 
     url(r'^login$', 'django.contrib.auth.views.login', name='login'),
     url(r'^logout$', 'hk.views.hk_logout', name='logout'),

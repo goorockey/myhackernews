@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block body_content %}
+<table id="item_tbl">
+    {% for item in item_list %}
+    <tr>
+        {% include "vote_arrow.html" %}
+
+        <td>
+            {% include 'comment_info.html' %}
+        </td>
+    </tr>
+    <tr>
+        <td colspan="1"></td>
+        <td><span class="content">{{ item.text }}</span></td>
+    </tr>
+    <tr class="body_gap"></tr>
+    {% endfor %}
+</table>
+{% endblock body_content %}
