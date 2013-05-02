@@ -119,10 +119,23 @@ def update(request):
 
 @login_required
 def changepw(request):
-    pass
+    return render(request, 'changepw.html')
 
+@login_required
+def password(request):
+    try:
+        pw1 = request.POST['new_password1']
+        pw2 = request.POST['new_password1']
+        if pw1 != pw2:
+            return HttpResponse('password error')
 
+        u = get_object_or_404(Hacker, id = request.user.id)
+        u.set_password(pw1)
+        u.save()
+        return HttpResponseRedirect('/user?id=%d' % u.id)
 
+    except Exception, e:
+        return HttpResponse(e)
 
 def hk_logout(request):
     logout(request)

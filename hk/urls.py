@@ -15,8 +15,11 @@ urlpatterns = patterns('',
 
     url(r'^r$', 'hk.views.response', name='response'),
     url(r'^x$', 'hk.views.update', name='update'),
+    url(r'^p$', 'hk.views.password', name='password'),
 
-    url(r'^changepw$', 'hk.views.changepw', name='changepw'),
+    url(r'^changepw$', 'django.contrib.auth.views.password_change', name='changepw'),
+    url(r'^$', 'django.contrib.auth.views.password_change_done', name='pwchanged'),
+
     url(r'^submissions$', 'hk.views.submissions', name='submissions'),
     url(r'^comments$', 'hk.views.comments', name='comments'),
 
