@@ -24,7 +24,7 @@ class Item(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
     create_date = models.DateTimeField(default = datetime.datetime.now())
     points = models.IntegerField(default = 0)
-    scores = models.IntegerField(default = 0)
+    score = models.FloatField(default = 0)
     comments = models.IntegerField(default = 0)
 
     def comments_inc(self, comments):
@@ -38,7 +38,7 @@ class Item(models.Model):
 
     def calc_score(self):
         delta = self.get_past_time()
-        self.scores = (self.points + self.comments) / ((delta.seconds / 3600 + 1) ** self.GRAVITY) 
+        self.score = float(self.points + self.comments) / ((delta.seconds / 3600 + 1) ** self.GRAVITY) 
 
     def get_past_time(self):
         now = timezone.now() # offset-awared datetime

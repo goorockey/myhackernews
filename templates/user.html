@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block body_content %}
+
+{% if u.id == user.id %}
+<form method="post" action="/x" >
+    {% csrf_token %}
+    <table>
+        <tbody>
+            <tr><td>user</td><td>{{ u.username }}</td></tr>
+            <tr><td>created</td><td>{{ u.date_joined}}</td></tr>
+            <tr><td>about</td><td><textarea name="about" rows="5" cols="50" value="{{ u.about }}"></textarea></td></tr>
+            <tr><td>email</td><td><input type="text" name="email" size="50" value="{{ u.email }}"/></td></tr>
+
+            <tr><td></td><td><a href="{% url 'changepw' %}">change password</a></td></tr>
+            <tr><td></td><td><a href="{% url 'submissions' %}?id={{ u.id }}">submissions</a></td></tr>
+            <tr><td></td><td><a href="{% url 'comments' %}?id={{ u.id }}">comments</a></td></tr>
+            <tr><td><input type="submit" value="update" /></td></tr>
+        </tbody>
+    </table>
+</form>
+
+{% else %}
+    <table>
+        <tbody>
+            <tr><td>user</td><td>{{ u.username }}</td></tr>
+            <tr><td>created</td><td>{{ u.date_joined}}</td></tr>
+            <tr><td>about</td><td>{{ u.about }}</td></tr>
+            <tr><td></td><td><a href="{% url 'submissions' %}?id={{ u.id }}">submissions</a></td></tr>
+            <tr><td></td><td><a href="{% url 'comments' %}?id={{ u.id }}">comments</a></td></tr>
+        </tbody>
+    </table>
+{% endif %}
+
+{% endblock body_content %}

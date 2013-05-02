@@ -10,14 +10,28 @@ def index(request):
     return render(request, 'index.html', 
             {
                 'page_list' : PAGE_LIST,
-                'new_list' : Item.objects.filter(type = 'NEW')
+                'new_list' : Item.objects.filter(type = 'NEW').order_by('-score')
             })
 
+def user(request):
+    u = get_object_or_404(Hacker, id = request.GET['id'])
+    return render(request, 'user.html', 
+            { 
+                'page_list' : PAGE_LIST,
+                'u' : u 
+            })
+
+def submissions(request):
+    pass
+
 def comments(request):
+    pass
+
+def newcomments(request):
     return render(request, 'index.html', 
             {
                 'page_list' : PAGE_LIST,
-                'new_list' : Item.objects.filter(type = 'COMMENT')
+                'new_list' : Item.objects.filter(type = 'COMMENT').order_by('create_date')
             })
 
 def item(request):
@@ -88,9 +102,27 @@ def response(request):
     except Exception, e:
         return HttpResponse(e)
 
+@login_required
+def update(request):
+    try:
+        about = request.POST['about']
+        email = request.POST['email']
+        
+        item = Item.get_object_or_404(Item, id = request.user.id)
+        item.about = about
+        item.email = email
+        item.save()
+        return HttpResponseRedirect('/user?id=%d' % user.id)
 
-def user(request):
+    except Exception, e:
+        return HttpResponse(e)
+
+@login_required
+def changepw(request):
     pass
+
+
+
 
 def hk_logout(request):
     logout(request)
