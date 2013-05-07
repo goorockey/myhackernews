@@ -74,8 +74,3 @@ class Item(models.Model):
 
     def childs(self):
         return Item.objects.filter(parent_id = self.id)
-
-class Point(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    item = models.ForeignKey(Item)
-
